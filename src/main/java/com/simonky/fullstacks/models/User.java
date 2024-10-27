@@ -14,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -31,8 +32,9 @@ public class User implements UserDetails{
     @Size(min = 1, max = 100, message = "El nombre debe tener entre 1 a 100 caracteres")
     private String fullname;
 
-    @Column(unique = true, length = 100, nullable = false)
+    @Column(unique = true, length = 200, nullable = false)
     @NotNull(message = "El email es requerido")
+    @Email(message = "Email invalido")
     private String email;
 
     @Column(nullable = false)

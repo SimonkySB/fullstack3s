@@ -35,6 +35,8 @@ public class WebSecurityConfig {
                     .permitAll()
                     .requestMatchers("/api/gestion/productos/**")
                     .hasRole("ADMIN")
+                    .requestMatchers("/api/public/productos/**")
+                    .hasRole("USER")
                     .anyRequest()
                     .authenticated()
                 )         

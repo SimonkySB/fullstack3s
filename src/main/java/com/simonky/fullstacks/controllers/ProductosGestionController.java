@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 import com.simonky.fullstacks.exceptions.ResourceNotFoundException;
 import com.simonky.fullstacks.models.Producto;
 import com.simonky.fullstacks.services.ProductoService;
@@ -28,7 +29,8 @@ public class ProductosGestionController {
     private ProductoService productoService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Producto>> listarProductos() {
+    public ResponseEntity<List<Producto>> listarProductos(
+    ) {
         return ResponseEntity.ok(productoService.listarProductos());
     }
 
