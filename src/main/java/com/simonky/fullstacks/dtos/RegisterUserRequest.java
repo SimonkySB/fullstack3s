@@ -1,6 +1,7 @@
 package com.simonky.fullstacks.dtos;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -10,6 +11,7 @@ public class RegisterUserRequest {
     private String fullname;
 
     @NotNull(message = "El email es requerido")
+    @NotBlank(message = "El email es requerido")
     @Email(message = "Email invalido")
     private String email;
 

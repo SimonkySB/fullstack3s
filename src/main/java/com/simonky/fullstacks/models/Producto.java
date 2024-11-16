@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -20,6 +21,7 @@ public class Producto {
 
 
     @NotNull(message = "El nombre no puede ser nulo")
+    @NotBlank(message = "El nombre no puede ser nulo")
     @Size(min = 1, max = 100, message = "El nombre debe tener entre 1 a 100 caracteres.")
     private String nombre;
 
@@ -29,6 +31,7 @@ public class Producto {
     private BigDecimal precio;
 
     @NotNull(message = "La categoría es requerida")
+    @NotBlank(message = "La categoría es requerida")
     @Size(min = 1, max = 50, message = "La categoría debe tener entre 1 a 50 caracteres.")
     private String categoria;
 

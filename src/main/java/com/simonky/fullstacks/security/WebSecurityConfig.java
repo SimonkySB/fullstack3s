@@ -30,15 +30,12 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf((csrf) -> csrf.disable())
+            .cors(cors ->  cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests( auth -> auth
-                    .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/register")
-                    .permitAll()
-                    .requestMatchers("/api/gestion/productos/**")
-                    .hasRole("ADMIN")
-                    .requestMatchers("/api/public/productos/**")
-                    .hasRole("USER")
-                    .anyRequest()
-                    .authenticated()
+                    .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/register").permitAll()
+                    .requestMatchers("/api/gestion/productos/**").hasRole("ADMIN")
+                    .requestMatchers("/api/public/productos/**").hasRole("USER")
+                    .anyRequest().authenticated()
                 )         
                 .authenticationProvider(authenticationProvider)
                 .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -51,7 +48,8 @@ public class WebSecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        configuration.setAllowedOrigins(List.of("http://localhost:4200", "https://localhost:4200"));
+        
         configuration.setAllowedMethods(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
 

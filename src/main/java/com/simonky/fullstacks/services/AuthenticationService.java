@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.simonky.fullstacks.dtos.LoginRequest;
 import com.simonky.fullstacks.dtos.RegisterUserRequest;
+import com.simonky.fullstacks.exceptions.AppException;
 import com.simonky.fullstacks.models.User;
 import com.simonky.fullstacks.repositories.UserRepository;
 
@@ -26,7 +27,11 @@ public class AuthenticationService {
         user.setFullname(input.getFullname());
         user.setEmail(input.getEmail());
         user.setPassword(passwordEncoder.encode(input.getPassword()));
-        user.setRoles("USER");
+        user.setRoles("ADMIN");
+
+        if(userRepository.findByEmail(input.getEmail()).isPresent()) {
+            throw new AppException("El email se encuentra en uso");
+        };
 
         return userRepository.save(user);
     }

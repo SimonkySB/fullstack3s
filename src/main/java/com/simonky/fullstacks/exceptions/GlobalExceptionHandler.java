@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import io.jsonwebtoken.JwtException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
     
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
     public ResponseEntity<Map<String, String>> handleValidationException(MethodArgumentNotValidException ex){
         Map<String, String> errores = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
@@ -25,7 +27,7 @@ public class GlobalExceptionHandler {
             String mensaje = error.getDefaultMessage();
             errores.put(campo, mensaje);
         });
-        return new ResponseEntity<>(errores, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errores, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -38,7 +40,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<String> handleResourceNotFoundException(Exception ex){
+    public ResponseEntity<String> handleException(Exception ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
@@ -49,5 +51,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
 
     }
-    
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<String> handleJwtException(JwtException ex) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body("Invalid JWT token: " + ex.getMessage());
+    }
+
+ 
 }
