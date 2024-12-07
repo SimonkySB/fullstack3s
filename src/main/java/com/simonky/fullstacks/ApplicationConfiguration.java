@@ -58,7 +58,15 @@ public class ApplicationConfiguration {
 
                 userRepository.save(admin);   
             }
+            if (userRepository.findByEmail("user@user.com").isEmpty()) {
+                User admin = new User();
+                admin.setFullname("user");
+                admin.setEmail("user@user.com");
+                admin.setPassword(passwordEncoder().encode("user123"));
+                admin.setRoles("USER");
 
+                userRepository.save(admin);   
+            }
             
         };
     }

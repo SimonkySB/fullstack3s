@@ -27,7 +27,7 @@ public class AuthenticationService {
         user.setFullname(input.getFullname());
         user.setEmail(input.getEmail());
         user.setPassword(passwordEncoder.encode(input.getPassword()));
-        user.setRoles("ADMIN");
+        user.setRoles("USER");
 
         if(userRepository.findByEmail(input.getEmail()).isPresent()) {
             throw new AppException("El email se encuentra en uso");
